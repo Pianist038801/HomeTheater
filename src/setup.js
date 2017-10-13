@@ -5,7 +5,7 @@ import sagas from './sagas';
 import '@i18n/I18n';
 import AppNavigator from './AppNavigator';
 import configureStore from './configureStore';
-
+import 'regenerator-runtime/runtime';
 const store = configureStore(); 
 
 function setup() {

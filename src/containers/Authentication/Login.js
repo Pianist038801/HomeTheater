@@ -43,9 +43,7 @@ class Login extends Component {
       if(response != 'authorized')
         Alert.alert('You should turn on your location service.')
     });
-    VersionCheck.needUpdate({
-      latestVersion: '1.0.0',
-    }).then(res=>console.log(res)).catch(err=>console.log(err));
+    
     navigator.geolocation.getCurrentPosition(
       (position) => { 
         this.props.dispatch({
@@ -71,37 +69,7 @@ class Login extends Component {
       alert('All fields should be valid');
     else
     { 
-      try {
-        //yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: true})
-        const versionInfo = await getVersion( Platform.OS, VersionNumber.appVersion);
-        if(versionInfo._isNewUpdate == 1)
-        {
-          if(versionInfo._isForceUpdate==1) //Force Update
-            Alert.alert(
-              'You need to update the app',
-              'Click OK to update',
-              [
-                {text: 'OK', onPress: () => {Linking.openURL(versionInfo._URL); return}}
-              ]
-            )
-          else  //Update is up to you
-            Alert.alert(
-              'New Version is available.',
-              'Do you want to update?',
-              [
-                {text: 'Yes', onPress: () => {Linking.openURL(versionInfo._URL); return;} },
-                {text: 'No', onPress: () => { this.props.dispatch({type: 'LogIn', username: this.state.email, password: this.state.password, uid: Platform.OS=='android'?DeviceInfo.getInstanceID():DeviceInfo.getUniqueID()})}},
-              ]
-            )
-        }
-        else
-        {
-          this.props.dispatch({type: 'LogIn', username: this.state.email, password: this.state.password, uid: Platform.OS=='android'?DeviceInfo.getInstanceID():DeviceInfo.getUniqueID()})
-        }
-      } catch (error) {
-        console.log(error)
-      }
-      //this.props.dispatch({type: 'LogIn', username: this.state.email, password: this.state.password, uid: Platform.OS=='android'?DeviceInfo.getInstanceID():DeviceInfo.getUniqueID()})
+       this.props.dispatch({type: 'LogIn', username: this.state.email, password: this.state.password, uid: Platform.OS=='android'?DeviceInfo.getInstanceID():DeviceInfo.getUniqueID()})
     }
      
   }
@@ -115,7 +83,7 @@ class Login extends Component {
         <View style={Styles.fullScreen}> 
            
           <View style={[Styles.center, { flex: 5 }]}>
-            <Image source={Images.logo} >
+            <Image source={Images.logo} style={{width: Metrics.screenWidth*3/4, resizeMode: 'contain'}} >
               
             </Image>
           </View>

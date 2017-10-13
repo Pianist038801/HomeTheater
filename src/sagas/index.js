@@ -1,7 +1,6 @@
 import { put, call, takeEvery, takeLatest, select, cps } from 'redux-saga/effects';
 import Types from '@actions/actionTypes';  
 import {getLogin, getList, getVersion} from '@api/getList';
-import VersionNumber from 'react-native-version-number';
 import React, { Component,  } from 'react';
 import {
   Platform,Linking, Alert
@@ -45,7 +44,9 @@ function* logIn(action) {
     console.log(error)
   }
 }
-export default function* loadTodos() {
+const root = function* loadTodos() {
   yield takeLatest("GET_LIST", getListFromServer); 
   yield takeLatest("LogIn", logIn);                                   
 }
+
+export default root;
