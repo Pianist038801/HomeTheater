@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="react-native-device-info-unspecified">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/MyOutlet/react-native-device-info/unspecified/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/MyOutlet/react-native-device-info/unspecified/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
