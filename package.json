@@ -23,6 +23,7 @@
 		"react-native-search-box": "0.0.11",
 		"react-native-simple-radio-button": "^2.6.1",
 		"react-native-spinkit": "^1.0.2",
+		"react-native-tab-view": "^0.0.69",
 		"react-native-vector-icons": "^4.0.1",
 		"react-navigation": "^1.0.0-beta.11",
 		"react-redux": "^5.0.3",

@@ -22,14 +22,33 @@ export const getVersion = (os, version) => {
     return dat.CheckUpdateResult;
   });
 }
-export const getLogin = (userid, password, uid) => {
-  return fetch(`http://mypatchv3.com/MyOutlet/OutletServices.svc/VerifyLogin/${userid}/${password}/${uid}`,
-  {
-    method: 'GET'
-  }
-  )
-  .then((response) => response.json())
-  .then( function(dat){
-    return dat.VerifyLoginResult;
-  });
+export const getLogin = (email, password,  os = 'ios', push_token='push_token') => {
+  const params = {
+    email: email,
+    password: password,
+    push_token: push_token,
+    os: os
+  };
+  const searchParams = Object.keys(params).map((key) => {
+    return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+  }).join('&');
+  
+  return fetch('http://hometheaterproz.com/api-v2/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: searchParams
+  })
+  .then((response) => {
+    console.log(response)
+    return response.json()
+  })
+  .then( function(dat){    
+    console.log(dat);
+    return dat;
+  })
+  .catch(e => {
+    console.log(e)
+  })
 }

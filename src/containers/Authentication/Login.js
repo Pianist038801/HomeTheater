@@ -27,8 +27,8 @@ class Login extends Component {
     super(props);
     
     this.state = {
-      email: '',
-      password: '',
+      email: 'booking@hometheaterproz.com',
+      password: 'Pa$$w0rd',
     };
     
   }
@@ -64,12 +64,14 @@ class Login extends Component {
     this.setState({ [`${value}Focus`]: true });
   }
 
-  async doLogin() {
+  doLogin() {
     if(this.state.email == '' || this.state.password == '') 
       alert('All fields should be valid');
     else
     { 
-       this.props.dispatch({type: 'LogIn', username: this.state.email, password: this.state.password, uid: Platform.OS=='android'?DeviceInfo.getInstanceID():DeviceInfo.getUniqueID()})
+      console.log('EMAILEMAIL!!!!!');
+      console.log(this.state.email);
+       this.props.dispatch({type: 'LogIn', username: this.state.email, password: this.state.password})
     }
      
   }
@@ -94,11 +96,13 @@ class Login extends Component {
               style={[Styles.textInputContainerStyle,
               { borderColor: Utils.getTextInputBorderColor(this.state.emailFocus) }]}>
               <TextInput
+                autoCapitalize = 'none'
                 style={Styles.textInputStyle}
                 underlineColorAndroid={'transparent'}
                 placeholder={'USERNAME'}
                 placeholderTextColor={Colors.textPlaceholder}
                 multiline={false}
+                value={this.state.email}
                 onChangeText={text => this.setState({ email: text })}
                 keyboardType={'email-address'}
                 returnKeyType={'next'}
@@ -112,9 +116,11 @@ class Login extends Component {
               <TextInput
                 ref={(c) => { this.loginpwd = c; }}
                 style={Styles.textInputStyle}
+                autoCapitalize = 'none'
                 underlineColorAndroid={'transparent'}
                 placeholder={I18n.t('PASSWORD')}
                 placeholderTextColor={Colors.textPlaceholder}
+                value={this.state.password}
                 multiline={false}
                 secureTextEntry
                 onChangeText={text => this.setState({ password: text })}
