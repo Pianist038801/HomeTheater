@@ -12,6 +12,8 @@ const colors = {
   textPlaceholder: '#222222',
   fieldPlaceholder: '#999999',
 
+  green: 'rgb(164,200,62)',
+  pink: 'rgb(233, 82, 129)',
   backgroundPrimary: '#F0F3EA',
   backgroundSecondary: '#FFFFFF',
   backgroundThird: '#e1e8ee',
@@ -24,7 +26,7 @@ const colors = {
   ripplePrimary: '#E22F4D50',
   rippleSecondary: '#27C87D50',
   rippleThird: '#1E80C750',
-  nav: 'rgb(28,51,93)',
+  nav: 'rgb(104,143,227)',
 };
 
 export default colors;

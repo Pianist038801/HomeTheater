@@ -8,6 +8,7 @@ import {
   Animated,
   Linking,
   Alert,
+  ScrollView,
   TouchableOpacity } from 'react-native'; 
 import geolib from 'geolib';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -59,41 +60,63 @@ renderMaterialButton(text, color, onPress, loading = false) {
       }
     }).catch(err => console.error('An error occurred', err));
   },
-  renderCell(data, id, curPos= {latitude: 51.5103, longitude: 7.49347}, onPress){
-    var dist = geolib.getDistance(
-      curPos,
-      {latitude: data._GPS_Lat, longitude: data._GPS_Lng}
-    ); 
-    dist = dist / 1000;
-    dist = dist.toFixed(2);
+  renderCell(data, id,   onPress){
+     
      return(
-      <TouchableOpacity onPress={()=>onPress(data)} key={id} style={{flexDirection: 'row', padding:15, borderBottomWidth:1, borderColor: Colors.blue, alignItems: 'center'}}>
-        <View style={{flexDirection: 'column', flex:1}}>
-          <Text style={{...Fonts.style.h5, color: Colors.text}}>{data._Customer_Name}</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{...Fonts.style.h5, color: Colors.text}}>{data._Customer_ID}</Text>
-            <Text style={{...Fonts.style.h5, color: Colors.text}}>{dist}KM</Text>
-          </View>
-        </View>
-         
-        <TouchableOpacity onPress={()=>{this.navigate(data)}}>
-          <Text style={{...Fonts.style.h4, marginLeft: Metrics.screenWidth/5, color: Colors.text}}>
-            GO
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={()=>onPress(data)} key={id} style={{flex:1, flexDirection: 'row', padding:15, borderBottomWidth:1, borderColor: Colors.blue, alignItems: 'center'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center',  flex:1}}>
+          {
+            data.Data.AttachedPhoto !== "" ?
+            <Image  style={{width: 40, marginRight: 30, height: 40 }} source={{uri: data.Data.AttachedPhoto}} /> :
+            <View style={{width: 40, marginRight: 30, height: 40, borderRadius: 3, backgroundColor: data.Type==0?'blue':Colors.pink}} /> 
+          }
+          <Text style={{...Fonts.style.h5, color: Colors.text}}>{data.Data.serviceLocation}</Text>
+        </View> 
       </TouchableOpacity>
     )
   },
- 
-  renderTextButton(text,color, onPress, bdCol)
+  renderDetailImage(title, url){
+    if ( url == "" ) return null;
+    return(
+      <View style={{flex:1, alignItems: 'center', flexDirection: 'row', margin: 30}}>
+        <Text style={{fontSize: 20}}> {title}:{' '}  </Text>
+        <Image style={{width: 50, height: 50}} resizeMode='stretch' source={{uri: url}}></Image>
+      </View>
+    )
+  },
+  renderDetailRow(title, value)
+  {
+    return(
+      <View style={{ flexDirection: 'row', marginHorizontal: 30, marginTop: 30,}}>
+        <Text style={{fontSize: 20}}> {title}:{' '}  </Text>
+        <ScrollView horizontal style={{flex : 1}} >
+            <Text style={{fontSize: 20 }} > 
+                {value} 
+            </Text >
+        </ScrollView>
+      </View>
+    )
+  },
+  renderUser(user, onPress)
+  {
+    return(
+      <TouchableOpacity onPress={()=>onPress(user)} key={user.userID} style={{  flexDirection: 'row', padding:15, borderBottomWidth:1, borderColor: Colors.blue, alignItems: 'center'}}>
+      <View style={{flexDirection: 'row', alignItems: 'center',  flex:1}}>
+        <Image  style={{width: 50, marginRight: 30, height: 50 }} source={{uri: user.avatar}} /> 
+        <Text style={{...Fonts.style.h5, color: Colors.text}}>{user.name}</Text>
+      </View> 
+    </TouchableOpacity>       
+    )
+  },
+  renderTextButton(text,color, onPress )
   {
     return (
       <TouchableOpacity
         style={[Styles.center,
-          { paddingVertical:20, width: Metrics.screenWidth * 0.4, margin: 20, backgroundColor: color, borderWidth:3, borderColor: bdCol,borderRadius: 3 }]}
+          { paddingVertical:20, width: color==='transparent'?Metrics.screenWidth*0.9:Metrics.screenWidth * 0.3, margin: 20, backgroundColor: color,  }]}
         backgroundColor={color} 
         onPress={onPress}>
-        <Text style={[Fonts.style.h3, { color: Colors.textPrimary }]}>
+        <Text style={[Fonts.style.h3, { color: color==='transparent'?'black':'white' }]}>
           {text} 
         </Text>
       </TouchableOpacity>
@@ -382,7 +405,7 @@ renderMaterialButton(text, color, onPress, loading = false) {
       <TouchableOpacity
         style={{ paddingBottom: Platform.OS === 'android' ? 5 : 5 }}
         onPress={onPress} >
-        <Icon name={iconName} size={30} color={Colors.textPrimary} />
+        <Icon name={iconName} size={30} color='white' />
       </TouchableOpacity>
     );
   },
@@ -394,7 +417,7 @@ renderMaterialButton(text, color, onPress, loading = false) {
       <TouchableOpacity
         style={{ marginRight: 20, paddingBottom: Platform.OS === 'android' ? 5 : 5 }}
         onPress={onPress} >
-        <Icon name={iconName} size={30} color={Colors.textPrimary} />
+        <Icon name={iconName} size={30} color='white'/>
       </TouchableOpacity>
     );
   },
@@ -431,7 +454,7 @@ renderMaterialButton(text, color, onPress, loading = false) {
           style={[Fonts.style.h4,
             { textAlign: 'center',
               width: Metrics.screenWidth * 0.7,
-              color: Colors.textPrimary }]}
+              color: 'white' }]}
           numberOfLines={1}>
           {headerText}
         </Text>

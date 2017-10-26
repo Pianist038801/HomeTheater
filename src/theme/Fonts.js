@@ -29,7 +29,7 @@ const style = {
   },
   fieldInput: {
     fontFamily: type.regular,
-    fontSize: size.h6,
+    fontSize: size.h4,
     backgroundColor: 'transparent',
     color: Colors.textThird,
   },

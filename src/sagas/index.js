@@ -1,28 +1,52 @@
 import { put, call, takeEvery, takeLatest, select, cps } from 'redux-saga/effects';
 import Types from '@actions/actionTypes';  
-import {getLogin, getList, getVersion} from '@api/getList';
-import React, { Component,  } from 'react';
+import { getLogin, sendAnother, acceptConfirm, getAnother, rejectConfirm } from '@api/getList';
+import React, { Component,  } from 'react'; 
 import {
   Platform,Linking, Alert
  } from 'react-native';
 const getGlobals = (state) => state.get('globals');
 
-function* getListFromServer(action) {
-  try {
-     
-    yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: true})
-    // let globals = yield select(getGlobals); 
-    // const values = yield call(getList, globals.data.userInfo._UserType, globals.data.userInfo._UserID);
-    // yield put({
-    //   type: Types.SET_DATA,
-    //   data: {list: values}, //response data
-    // }); 
+function* accept(action) {
+  try { 
+    //yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: true}) 
+    const values =  yield call(action.accept==1?acceptConfirm:rejectConfirm, action.message, action.requestid, action.userid); 
+    if(values.success==true)
+      alert('Successfuly Sent');
+    else
+      alert('Failed to send message');
     yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: false})
   } catch (error) {
     console.log('sss')
   }
 }
- 
+function* getAnothers(action) {
+  try { 
+    yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: true}) 
+    const values =  yield call(getAnother, action.userid); 
+    console.log(values); 
+      yield put({
+        type: Types.SET_DATA, 
+        data: {userArray: values}, //response data
+      }); 
+    yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: false})
+  } catch (error) {
+    console.log('sss')
+  }
+} 
+function* sendAnothers(action) {
+  try { 
+    //yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: true}) 
+    const values =  yield call(sendAnother, action.userid, action.receiverid, action.requestid); 
+    if(values.success==true)
+    alert('Successfuly Transfered');
+    else
+    alert('Failed to transfer job');
+    yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: false})
+  } catch (error) {
+    console.log('sss')
+  }
+} 
 function* logIn(action) {
   try { 
     //yield put({type: Types.SET_SPINNER_VISIBLE, spinnerVisible: true})
@@ -48,9 +72,11 @@ function* logIn(action) {
     console.log(error)
   }
 }
-const root = function* loadTodos() {
-  yield takeLatest("GET_LIST", getListFromServer); 
-  yield takeLatest("LogIn", logIn);                                   
+const root = function* loadTodos() { 
+  yield takeLatest("LogIn", logIn);         
+  yield takeLatest("Accept", accept);
+  yield takeLatest("getAnother", getAnothers); 
+  yield takeLatest("sendAnother", sendAnothers);                       
 }
 
 export default root;

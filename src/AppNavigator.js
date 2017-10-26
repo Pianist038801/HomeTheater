@@ -5,18 +5,19 @@ import { connect } from 'react-redux';
 import { Colors } from '@theme/';
 import { StackNavigator } from 'react-navigation';
 import Splash from '@containers/Splash';
-import Login from '@containers/Authentication/Login';
-import MainContainer from '@containers/MainContainer';
+import Login from '@containers/Authentication/Login'; 
 import ListContainer from '@containers/ListContainer';
-import MapContainer from '@containers/MapContainer';
-
+import DetailView from '@containers/DetailView';
+import Accept from '@containers/AcceptReject';
+import ChooseAnother from '@containers/ChooseAnother';
 
 const AppNavigator = StackNavigator({
   splash: { screen: Splash },
   login: { screen: Login },
   list: {screen: ListContainer},
-  map: {screen: MapContainer},
-  main: { screen: MainContainer },      
+  accept: {screen: Accept},
+  detail: {screen: DetailView},      
+  another: {screen: ChooseAnother},
 }, {
   initialRouteName: 'login',
   navigationOptions: {

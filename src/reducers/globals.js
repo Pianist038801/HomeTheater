@@ -7,6 +7,7 @@ export const initialState = Immutable({
   spinnerVisible: false,
   data: { 
     list: [],
+    userArray: [],
     location: {latitude: 3.152427, longitude: 101.621126}
   }
 });

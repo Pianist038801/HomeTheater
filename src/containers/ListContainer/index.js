@@ -13,55 +13,58 @@ import Utils from '@src/utils';
   
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 
-const FirstRoute = () => <View style={[ styles.container, { backgroundColor: '#ff4081' } ]} >
-         <ScrollView style={{flex: 1}}> 
-            {    
-                (this.props.globals.data.list!=undefined) && 
-                this.props.globals.data.list
-                .filter(data=>(data.Type == 0))  
-                .map((data, id)=> CommonWidgets.renderCell(data,id, this.props.globals.data.location, this.onGo)
-                )   
-            }  
-        </ScrollView>
+
+class ListContainer extends PureComponent {
+  onGo= (data)=>
+  { 
+    this.props.navigation.navigate('detail', {data: data});
+  }
+   FirstRoute = () => <View style={[ styles.container   ]} >
+  <ScrollView style={{flex: 1}}> 
+     {    
+         (this.props.globals.data.list!=undefined) && 
+         this.props.globals.data.list
+         .filter(data=>(data.Type == 0))  
+         .map((data, id)=> CommonWidgets.renderCell(data,id,   this.onGo)
+         )   
+     }  
+ </ScrollView>
 </View>;
-const SecondRoute = () => <View style={[ styles.container, { backgroundColor: '#673ab7' } ]}  >
-<ScrollView style={{flex: 1}}> 
-   {    
-       (this.props.globals.data.list!=undefined)&&
-       this.props.globals.data.list
-       .filter(data=>(data.Type == 1))  
-       .map((data, id)=> CommonWidgets.renderCell(data,id, this.props.globals.data.location, this.onGo)
-       )   
-   }  
-   </ScrollView>
-</View>
-class TabViewExample extends PureComponent {
+ SecondRoute = () => <View style={[ styles.container   ]}  >
+ <ScrollView style={{flex: 1}}> 
+    {    
+        (this.props.globals.data.list!=undefined)&&
+        this.props.globals.data.list
+        .filter(data=>(data.Type == 1))  
+        .map((data, id)=> CommonWidgets.renderCell(data,id,  this.onGo)
+        )   
+    }  
+    </ScrollView>
+ </View>
+
   state = {
     index: 0,
     routes: [
       { key: '1', title: 'Quote Request' },
-      { key: '2', title: 'Second' }
-    ]
-  }
+      { key: '2', title: 'Service Request' },
+    ],
+  };
 
   _handleIndexChange = index => this.setState({ index });
 
   _renderHeader = props => <TabBar {...props} />;
 
-  _renderScene = props => SceneMap({
-    '1': <FirstRoute {...props} />,
-    '2': <SecondRoute {...props} /> 
+  _renderScene = SceneMap({
+    '1': this.FirstRoute,
+    '2': this.SecondRoute,
   });
 
   render() {
     return (
-        <View style={[Styles.fullScreen, {flex:1, backgroundColor:  Colors.brandSecondary }] }> 
+      <View style={[Styles.fullScreen, {flex:1, backgroundColor:  Colors.brandSecondary }] }> 
             <NavigationBar
             statusBar={{ style: 'light-content' }}
             style={Styles.nav}
-            title={<View style={{marginLeft: -35}}>
-                        <Text>Dispatcher</Text>           
-                    </View>}
             tintColor={Colors.brandPrimary} 
             />  
             <TabViewAnimated
@@ -83,7 +86,6 @@ const styles = StyleSheet.create({
   },
 });
  
- 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch, 
@@ -96,4 +98,4 @@ function mapStateToProps(state) {
   return { globals, navigator};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabViewExample);     
+export default connect(mapStateToProps, mapDispatchToProps)(ListContainer);     
